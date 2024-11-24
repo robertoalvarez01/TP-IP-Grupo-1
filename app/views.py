@@ -3,6 +3,7 @@
 from django.shortcuts import redirect, render
 from .layers.services import services
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 def index_page(request):
     return render(request, 'index.html')
@@ -13,7 +14,7 @@ def home(request):
     
     images = services.getAllImages()
 
-    favourite_list = []
+    favourite_list = services.getAllFavourites(request)
 
     return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
 
@@ -24,7 +25,7 @@ def search(request):
     # y luego renderiza el template (similar a home).
     if (search_msg != ''):
         images = services.getAllImages(search_msg) #getAllImages acepta como parámetro el nombre para realizar la búsqueda
-        favourite_list = []
+        favourite_list = services.getAllFavourites(request)
         return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })
     else:
         return redirect('home')
@@ -33,17 +34,21 @@ def search(request):
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
 @login_required
 def getAllFavouritesByUser(request):
-    favourite_list = []
+    favourite_list = services.getAllFavourites(request)
     return render(request, 'favourites.html', { 'favourite_list': favourite_list })
 
 @login_required
 def saveFavourite(request):
-    pass
+    services.saveFavourite(request)
+    return redirect('home')
+
 
 @login_required
 def deleteFavourite(request):
-    pass
+    services.deleteFavourite(request)
+    return redirect('favoritos')
 
 @login_required
 def exit(request):
-    pass
+    logout(request)
+    return redirect('index-page')

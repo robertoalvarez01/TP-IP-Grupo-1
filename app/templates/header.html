@@ -20,20 +20,44 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'index-page' %}">Inicio</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'index-page' %}">
+                            {% if request.path == "/" %}
+                                <strong>Inicio</strong>
+                            {% else %}
+                                Inicio
+                            {% endif %}
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><strong>Galería</strong></a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">
+                            {% if request.path == "/home/" or request.path == "/buscar/" %}
+                                <strong>Galería</strong>
+                            {% else %}
+                                Galería
+                            {% endif %}
+                        </a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'favoritos' %}">Favoritos</a>
+                        <a class="nav-link" href="{% url 'favoritos' %}">
+                            {% if request.path == "/favourites/" %}
+                                <strong>Favoritos</strong>
+                            {% else %}
+                                Favoritos
+                            {% endif %}
+                        </a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
                         {% if request.user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'exit' %}">Salir</a> {% else %}
-                        <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a> {% endif %}
+                        <a class="nav-link" href="{% url 'logout' %}">Salir</a> {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">
+                            {% if request.path == "/accounts/login/" %}
+                                <strong>Iniciar sesión</strong>
+                            {% else %}
+                                Iniciar sesión
+                            {% endif %}
+                        </a> {% endif %}
                     </li>
                 </ul>
 

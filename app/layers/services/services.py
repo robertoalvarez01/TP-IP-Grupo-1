@@ -8,7 +8,7 @@ from app.layers.transport.transport import getAllImagesTransport
 
 
 def getAllImages(input=None):
-    json_collection = getAllImagesTransport()
+    json_collection = getAllImagesTransport(input)
     
     # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
     images = []

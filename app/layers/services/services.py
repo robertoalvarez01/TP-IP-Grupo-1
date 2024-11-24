@@ -4,11 +4,11 @@ from app.config.config import DEFAULT_REST_API_URL
 from ..persistence import repositories
 from ..utilities import translator
 from django.contrib.auth import get_user
-from app.layers.transport.transport import getAllImagesTransport
+from ..transport import transport
 
 
 def getAllImages(input=None):
-    json_collection = getAllImagesTransport(input)
+    json_collection = transport.getAllImages(input)
     
     # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
     images = []

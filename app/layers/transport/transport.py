@@ -5,7 +5,7 @@ from ...config import config
 
 # comunicación con la REST API.
 # este método se encarga de "pegarle" a la API y traer una lista de objetos JSON crudos (raw).
-def getAllImagesTransport(input=None):
+def getAllImages(input=None):
     if input is None:
         json_response = requests.get(config.DEFAULT_REST_API_URL).json()
     else:
@@ -30,3 +30,15 @@ def getAllImagesTransport(input=None):
             pass
 
     return json_collection
+
+# comunicación con la REST API.
+# este método se encarga de "pegarle" a la API y traer la cantidad de páginas que devuelve el llamado.
+def getPagesCount(input=None):
+    if input is None:
+        json_response = requests.get(config.DEFAULT_REST_API_URL).json()
+    else:
+        json_response = requests.get(config.DEFAULT_REST_API_SEARCH + input).json()
+
+    pages = json_response['info']['pages']
+
+    return pages

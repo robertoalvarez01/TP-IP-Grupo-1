@@ -6,18 +6,36 @@
         <!-- Selector de página -->
         <nav aria-label="...">
             <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link">⬅️</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
-                </li>
+                
+                {% if images.number >= 1 %}
                 <li class="page-item">
+                    <a class="page-link" href="{% url 'home' images.number|add:-1 %}">⬅️</a>
+                </li>
+                {% endif %}
+                {% if images.number > 3 %}
+                    <li class="page-item">
+                        <a class="page-link disabled">...</a>
+                    </li>
+                {% endif %}
+                {% for page_number in images.paginator.page_range %}
+                    {% if page_number <= images.number|add:2 and page_number >= images.number|add:-2 %}
+                        <li class="page-item {% if page_number == images.number %}active{% endif %}" aria-current="page">
+                            <a class="page-link" href="{% url 'home' page_number %}">{{ page_number }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if images.number < images.paginator.num_pages|add:-2 %}
+                    <li class="page-item">
+                        <a class="page-link disabled">...</a>
+                    </li>
+                {% endif %}
+                
+                <!-- <li class="page-item">
                     <a class="page-link" href="#">2</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li> -->
                 <li class="page-item">
-                    <a class="page-link" href="#">➡️</a>
+                    <a class="page-link" href="{% url 'home' images.number|add:1 %}">➡️</a>
                 </li>
             </ul>
         </nav>
